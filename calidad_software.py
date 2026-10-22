@@ -3,7 +3,6 @@ def calcular_descuento(precio, descuento):
     resultado = precio - (precio * descuento / 100)
     return resultado
 
-
 def procesar_venta(precio, descuento):
     if precio > 0:
         if descuento >= 0:
