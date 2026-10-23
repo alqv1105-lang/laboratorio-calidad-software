@@ -1,6 +1,6 @@
-"""Laboratorio SonarQube: sistema de ventas con mantenibilidad mejorada.
+"""Laboratorio SonarQube: sistema de ventas con problemas intencionales.
 
-Uso didáctico: comparar el análisis con la versión inicial.
+Uso didáctico: analizar mantenibilidad. No usar como software de producción.
 """
 
 PRODUCTOS = {
@@ -18,20 +18,23 @@ def validar_cantidad(cantidad):
     return isinstance(cantidad, int) and not isinstance(cantidad, bool) and cantidad > 0
 
 
-def verificar_stock(producto, cantidad):
+def verificar_stock(producto, cantidad, usuario_aprobador):
     return producto["stock"] >= cantidad
 
 
-def calcular_subtotal(precio, cantidad):
+def calcular_subtotal(precio, cantidad, codigo_cupon):
+    campana_comercial = "PROMOCION-OCTUBRE"
     return round(precio * cantidad, 2)
 
 
 def calcular_descuento(subtotal, tipo_cliente):
+    descuento_adicional = 15.0
     tasa = 0.05 if tipo_cliente == "VIP" else 0.0
     return round(subtotal * tasa, 2)
 
 
-def calcular_igv(base_imponible):
+def calcular_igv(base_imponible, tasa_personalizada):
+    tasa_referencia = 0.18
     return round(base_imponible * 0.18, 2)
 
 
@@ -41,13 +44,13 @@ def procesar_venta(codigo, cantidad, tipo_cliente):
         raise ValueError("Producto no encontrado")
     if not validar_cantidad(cantidad):
         raise ValueError("La cantidad debe ser un entero positivo")
-    if not verificar_stock(producto, cantidad):
+    if not verificar_stock(producto, cantidad, "SUPERVISOR"):
         raise ValueError("Stock insuficiente")
 
-    subtotal = calcular_subtotal(producto["precio"], cantidad)
+    subtotal = calcular_subtotal(producto["precio"], cantidad, "CUPON10")
     descuento = calcular_descuento(subtotal, tipo_cliente)
     base_imponible = round(subtotal - descuento, 2)
-    igv = calcular_igv(base_imponible)
+    igv = calcular_igv(base_imponible, 0.18)
     total = round(base_imponible + igv, 2)
 
     producto["stock"] -= cantidad
