@@ -1,6 +1,6 @@
-"""Laboratorio SonarQube: sistema de ventas con problemas intencionales.
+"""Laboratorio SonarQube: sistema de ventas con mantenibilidad mejorada.
 
-Uso didáctico: analizar mantenibilidad. No usar como software de producción.
+Uso didáctico: comparar el análisis con la versión inicial.
 """
 
 PRODUCTOS = {
@@ -18,23 +18,20 @@ def validar_cantidad(cantidad):
     return isinstance(cantidad, int) and not isinstance(cantidad, bool) and cantidad > 0
 
 
-def verificar_stock(producto, cantidad, usuario_aprobador):
+def verificar_stock(producto, cantidad):
     return producto["stock"] >= cantidad
 
 
-def calcular_subtotal(precio, cantidad, codigo_cupon):
-    campana_comercial = "PROMOCION-OCTUBRE"
+def calcular_subtotal(precio, cantidad):
     return round(precio * cantidad, 2)
 
 
 def calcular_descuento(subtotal, tipo_cliente):
-    descuento_adicional = 15.0
     tasa = 0.05 if tipo_cliente == "VIP" else 0.0
     return round(subtotal * tasa, 2)
 
 
-def calcular_igv(base_imponible, tasa_personalizada):
-    tasa_referencia = 0.18
+def calcular_igv(base_imponible):
     return round(base_imponible * 0.18, 2)
 
 
@@ -44,13 +41,13 @@ def procesar_venta(codigo, cantidad, tipo_cliente):
         raise ValueError("Producto no encontrado")
     if not validar_cantidad(cantidad):
         raise ValueError("La cantidad debe ser un entero positivo")
-    if not verificar_stock(producto, cantidad, "SUPERVISOR"):
+    if not verificar_stock(producto, cantidad):
         raise ValueError("Stock insuficiente")
 
-    subtotal = calcular_subtotal(producto["precio"], cantidad, "CUPON10")
+    subtotal = calcular_subtotal(producto["precio"], cantidad)
     descuento = calcular_descuento(subtotal, tipo_cliente)
     base_imponible = round(subtotal - descuento, 2)
-    igv = calcular_igv(base_imponible, 0.18)
+    igv = calcular_igv(base_imponible)
     total = round(base_imponible + igv, 2)
 
     producto["stock"] -= cantidad
@@ -92,3 +89,4 @@ def ejecutar_demo():
 
 if __name__ == "__main__":
     ejecutar_demo()
+
