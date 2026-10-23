@@ -28,3 +28,10 @@ procesar_venta(100, 20)
 def calcular_igv(precio, impuesto):
     igv = precio * 0.18
     return precio + igv
+
+
+def verificar_cliente(cliente):
+    if cliente == None:
+        print("Cliente no encontrado")
+    else:
+        print("Cliente registrado")
