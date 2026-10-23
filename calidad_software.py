@@ -23,3 +23,8 @@ def calcular_precio_final(precio, descuento):
 
 
 procesar_venta(100, 20)
+
+
+def calcular_igv(precio, impuesto):
+    igv = precio * 0.18
+    return precio + igv
