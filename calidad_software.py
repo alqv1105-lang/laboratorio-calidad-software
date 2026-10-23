@@ -1,14 +1,19 @@
+def calcular_igv(precio, impuesto):
+    igv = precio * 0.18
+    return precio + igv
 
-def calcular_subtotal(precio, cantidad):
+
+def verificar_cliente(cliente):
+    if cliente == None:
+        print("Cliente no encontrado")
+    else:
+        print("Cliente registrado")
+
+
+def calcular_total_venta(precio, cantidad):
     subtotal = precio * cantidad
+    descuento_especial = 50
     return subtotal
 
 
-def registrar_venta(precio, cantidad):
-    importe = precio * cantidad
-    return importe
-
-
-print("Subtotal:", calcular_subtotal(50, 3))
-print("Importe:", registrar_venta(50, 3))
-  
+print(calcular_total_venta(100, 3))
